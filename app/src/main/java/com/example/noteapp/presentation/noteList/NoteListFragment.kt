@@ -1,4 +1,4 @@
-package com.example.noteapp
+package com.example.noteapp.presentation.noteList
 
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.noteapp.R
 
 class NoteListFragment : Fragment() {
 
@@ -26,7 +27,7 @@ class NoteListFragment : Fragment() {
     }
 
     private fun createRecyclerView(v: View) {
-        val notesAdapter = NotesAdapter()
+        val notesAdapter = NoteListAdapter()
         val recyclerView: RecyclerView = v.findViewById(R.id.recycler_view)
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)

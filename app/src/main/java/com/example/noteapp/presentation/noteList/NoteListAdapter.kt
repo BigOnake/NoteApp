@@ -1,11 +1,15 @@
-package com.example.noteapp
+package com.example.noteapp.presentation.noteList
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.noteapp.model.NoteModel
+import com.example.noteapp.R
 
-class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NoteViewHolder>() {
+class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteViewHolder>() {
+
+    private var noteListArray = ArrayList<NoteModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val view =
@@ -14,15 +18,16 @@ class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NoteViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-        holder.onBind()
+        holder.onBind(noteListArray[position])
     }
 
     override fun getItemCount(): Int {
-        return 1
+        return noteListArray.size
     }
 
     inner class NoteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun onBind() {
+
+        fun onBind(noteModel: NoteModel) {
 
         }
     }
