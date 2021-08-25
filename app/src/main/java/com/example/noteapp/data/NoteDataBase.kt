@@ -15,9 +15,9 @@ abstract class NoteDataBase : RoomDatabase() {
 
     companion object {
         @Volatile
-        private var INSTANCE: RoomDatabase? = null
+        private var INSTANCE: NoteDataBase? = null
 
-        fun getDataBase(context: Context): RoomDatabase {
+        fun getDataBase(context: Context): NoteDataBase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
@@ -25,7 +25,7 @@ abstract class NoteDataBase : RoomDatabase() {
             synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    RoomDatabase::class.java, "room_database"
+                    NoteDataBase::class.java, "room_database"
                 ).build()
                 INSTANCE = instance
                 return instance
