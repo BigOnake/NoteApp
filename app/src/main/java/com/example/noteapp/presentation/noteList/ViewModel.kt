@@ -1,6 +1,7 @@
 package com.example.noteapp.presentation.noteList
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -19,6 +20,7 @@ class ViewModel(application: Application): AndroidViewModel(application) {
         val noteDataBase = NoteDataBase.getDataBase(application).noteDao()
         repository = NoteRepository(noteDataBase)
         readAll = repository.getAllNotes()
+        Log.d("ololo", readAll.toString())
     }
 
     fun addNote(note: NoteModel){
