@@ -3,6 +3,7 @@ package com.example.noteapp.presentation.noteList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.noteapp.model.NoteModel
 import com.example.noteapp.R
@@ -27,8 +28,12 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteViewHolder>() {
 
     inner class NoteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun onBind(noteModel: NoteModel) {
+        private var noteListTitle: TextView = view.findViewById(R.id.note_list_title)
+        private var noteListDescription: TextView = view.findViewById(R.id.note_list_description)
 
+        fun onBind(noteModel: NoteModel) {
+            noteListTitle.text = noteModel.noteTitle.toString()
+            noteListDescription.text = noteModel.noteDescription.toString()
         }
     }
 }
