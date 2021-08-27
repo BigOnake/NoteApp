@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.noteapp.R
@@ -16,8 +17,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class NoteListFragment : Fragment() {
 
+    //private val noteModel = NoteModel(null)
+
     private lateinit var fab:FloatingActionButton
     private lateinit var noteWindowFragment: NoteWindowFragment
+    private lateinit var viewModel: ViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,8 +32,9 @@ class NoteListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         Log.d("ololo", "NoteListFragment " + lifecycle.currentState.toString())
+
+        viewModel = ViewModelProvider(this).get(ViewModel::class.java)
         initView(view)
         createRecyclerView(view)
         onClick()
@@ -51,11 +56,11 @@ class NoteListFragment : Fragment() {
 
     private fun onClick(){
         fab.setOnClickListener{
-            openWindow()
+            openNoteWindowFragment()
         }
     }
 
-    private fun openWindow(){
+    private fun openNoteWindowFragment(){
         Toast.makeText(context, "FAB was clicked", Toast.LENGTH_SHORT).show()
         val activity: AppCompatActivity = context as AppCompatActivity
         noteWindowFragment = NoteWindowFragment()
@@ -63,7 +68,12 @@ class NoteListFragment : Fragment() {
             .replace(R.id.main_fragment_container, noteWindowFragment)
             .addToBackStack(null).commit()
 
+        Log.d("ololo", lifecycle.currentState.toString())
         Log.d("ololo", "NoteWindowFragment was opened | " + noteWindowFragment.lifecycle.currentState.toString())
     }
+
+    /*private fun loadData(){
+        viewModel.getAllNotes()
+    }*/
 
 }

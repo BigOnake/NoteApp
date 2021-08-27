@@ -32,8 +32,8 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteViewHolder>() {
         private var noteListDescription: TextView = view.findViewById(R.id.note_list_description)
 
         fun onBind(noteModel: NoteModel) {
-            noteListTitle.text = noteModel.noteTitle.toString()
-            noteListDescription.text = noteModel.noteDescription.toString()
+            noteListTitle.text = noteModel.noteTitle
+            noteListDescription.text = noteModel.noteDescription
         }
     }
 }

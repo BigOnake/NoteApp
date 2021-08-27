@@ -20,12 +20,19 @@ class ViewModel(application: Application): AndroidViewModel(application) {
         val noteDataBase = NoteDataBase.getDataBase(application).noteDao()
         repository = NoteRepository(noteDataBase)
         readAll = repository.getAllNotes()
-        Log.d("ololo", readAll.toString())
+
     }
 
     fun addNote(note: NoteModel){
        viewModelScope.launch(Dispatchers.IO) {
            repository.insertNotes(note)
        }
+    }
+
+    fun getAllNotes(){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.getAllNotes()
+            Log.d("ololo", readAll.toString())
+        }
     }
 }

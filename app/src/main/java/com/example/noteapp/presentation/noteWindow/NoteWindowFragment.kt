@@ -11,6 +11,7 @@ import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import com.example.noteapp.R
 import com.example.noteapp.model.NoteModel
+import com.example.noteapp.presentation.noteList.NoteListFragment
 import com.example.noteapp.presentation.noteList.ViewModel
 
 class NoteWindowFragment : Fragment() {
@@ -18,6 +19,7 @@ class NoteWindowFragment : Fragment() {
     private var savedWindowTitle: String = String()
     private var savedWindowDescription: String = String()
     private val noteModel = NoteModel(null)
+    private val noteListFragment: NoteListFragment = NoteListFragment()
 
     private lateinit var viewModel: ViewModel
     private lateinit var windowTitle: EditText
@@ -36,8 +38,13 @@ class NoteWindowFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(ViewModel::class.java)
         initView(view)
-        setNote()
-        //saveNote()
+        setNoteText()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("ololo", "NoteWindowList was opened | " + noteListFragment.lifecycle.currentState.toString())
+        saveData()
     }
 
     private fun initView(v: View) {
@@ -46,33 +53,36 @@ class NoteWindowFragment : Fragment() {
         saveButton = v.findViewById(R.id.save_button)
     }
 
-    private fun saveNote() {
+    private fun saveData() {
         viewModel.addNote(noteModel)
-        Log.d("ololo", "$savedWindowTitle | $savedWindowDescription")
+        Log.d("ololo", viewModel.getAllNotes().toString())
     }
 
-    private fun setNote() {
-        windowTitle.setOnFocusChangeListener { _, b ->
-            if (!b){
-                savedWindowTitle = windowTitle.text.toString()
-                windowTitle.setText(savedWindowTitle)
+    private fun setNoteText() {
+        windowTitle.setOnFocusChangeListener { _, b -> //Looking when View focus is changed
+            if (!b) {
+                savedWindowTitle = windowTitle.text.toString() // Saving View changes into mVariable
+                //windowTitle.setText(savedWindowTitle) //Setting View by variable
+                noteModel.noteTitle = savedWindowTitle //Setting mVariable to Model
                 Log.d("ololo", "${windowTitle.text} has been changed")
-            }else{
+                Log.e("ololo", "${noteModel.noteTitle} | ${noteModel.noteDescription}")
+            } else {
                 Log.d("ololo", "${windowTitle.text} is focused")
             }
         }
 
         windowDescription.setOnFocusChangeListener { _, b ->
-            if (!b){
-                savedWindowDescription = windowDescription.text.toString()
-                windowDescription.setText(savedWindowDescription)
+            if (!b) {
+                savedWindowDescription = windowDescription.text.toString() // Saving View changes into mVariable
+                //windowDescription.setText(savedWindowDescription) //Setting View by variable
+                noteModel.noteDescription = savedWindowDescription //Setting mVariable to Model
                 Log.d("ololo", "${windowDescription.text} has been changed")
-            }else{
+                Log.e("ololo", "${noteModel.noteTitle} | ${noteModel.noteDescription}")
+            } else {
                 Log.d("ololo", "${windowDescription.text} is focused")
             }
         }
 
-        Log.d("ololo", "$savedWindowTitle $savedWindowDescription")
     }
 }
 //  noteModel.noteTitle = windowTitle.text.toString()
