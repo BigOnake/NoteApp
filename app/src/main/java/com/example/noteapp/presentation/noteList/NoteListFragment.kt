@@ -72,8 +72,9 @@ class NoteListFragment : Fragment() {
         Log.d("ololo", "NoteWindowFragment was opened | " + noteWindowFragment.lifecycle.currentState.toString())
     }
 
-    /*private fun loadData(){
-        viewModel.getAllNotes()
-    }*/
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.e("ololo", lifecycle.currentState.toString())
+    }
 
 }

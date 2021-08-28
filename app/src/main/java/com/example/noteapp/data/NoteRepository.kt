@@ -14,5 +14,5 @@ class NoteRepository(private val noteDao: NoteDao) {
     suspend fun deleteNotes(noteModel: NoteModel) =
         noteDao.deleteNote(noteModel)
 
-    fun getAllNotes(): LiveData<List<NoteModel>> = noteDao.getAllNotes()
+    fun getAllNotes(): List<NoteModel> = noteDao.getAllNotes()
 }

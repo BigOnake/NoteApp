@@ -14,18 +14,24 @@ import kotlinx.coroutines.launch
 class ViewModel(application: Application): AndroidViewModel(application) {
 
     private val repository: NoteRepository
-    private var readAll: LiveData<List<NoteModel>>
+    private var readAll: List<NoteModel>? = null
 
     init {
         val noteDataBase = NoteDataBase.getDataBase(application).noteDao()
         repository = NoteRepository(noteDataBase)
-        readAll = repository.getAllNotes()
 
+        viewModelScope.launch(Dispatchers.IO) {
+            readAll = repository.getAllNotes()
+        }
     }
 
     fun addNote(note: NoteModel){
        viewModelScope.launch(Dispatchers.IO) {
            repository.insertNotes(note)
+
+           Log.e("ololo", "addNote: ${repository.getAllNotes().size}", )
+
+           Log.e("ololo", readAll.toString())
        }
     }
 
