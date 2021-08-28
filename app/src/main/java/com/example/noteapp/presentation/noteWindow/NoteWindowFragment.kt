@@ -14,7 +14,7 @@ import com.example.noteapp.model.NoteModel
 import com.example.noteapp.presentation.noteList.NoteListFragment
 import com.example.noteapp.presentation.noteList.ViewModel
 
-class NoteWindowFragment : Fragment() {
+class NoteWindowFragment : Fragment(), BackPressedHandler {
 
     private var savedWindowTitle: String = String()
     private var savedWindowDescription: String = String()
@@ -41,17 +41,49 @@ class NoteWindowFragment : Fragment() {
         setNoteText(noteModel)
     }
 
-    override fun onStop() {
-        super.onStop()
-        Log.e("ololo", lifecycle.currentState.toString())
-        Log.d("ololo", "NoteWindowList was opened | " + noteListFragment.lifecycle.currentState.toString())
-        saveData(noteModel)
-    }
-
     private fun initView(v: View) {
         windowTitle = v.findViewById(R.id.window_title)
         windowDescription = v.findViewById(R.id.window_description)
         saveButton = v.findViewById(R.id.save_button)
+    }
+
+    private fun setNoteText(note: NoteModel) {
+        windowTitle.setOnFocusChangeListener { v, b -> //Looking when View focus is changed
+            if (!b) {
+                setTitle(note)
+                Log.d("ololo", "${windowTitle.text} has been changed")
+            } else if (onBackPressed(v)) {
+                setTitle(note)
+                Log.d("ololo", "${windowDescription.text} is saved")
+            } else {
+                Log.d("ololo", "${windowTitle.text} is focused")
+            }
+        }
+
+        windowDescription.setOnFocusChangeListener { v, b ->
+            if (!b) {
+                setDescription(note)
+                Log.d("ololo", "${windowDescription.text} has been changed")
+            } else if (onBackPressed(v)) {
+                setDescription(note)
+                Log.d("ololo", "${windowDescription.text} is saved")
+            } else {
+                Log.d("ololo", "windowDescription is focused")
+            }
+        }
+    }
+
+    private fun setTitle(note: NoteModel) {
+        savedWindowTitle = windowTitle.text.toString() // Saving View changes into mVariable
+        note.noteTitle = savedWindowTitle //Setting mVariable to Model
+        Log.e("ololo", noteModel.noteTitle)
+    }
+
+    private fun setDescription(note: NoteModel) {
+        savedWindowDescription =
+            windowDescription.text.toString() // Saving View changes into mVariable
+        note.noteDescription = savedWindowDescription //Setting mVariable to Model
+        Log.e("ololo", noteModel.noteDescription)
     }
 
     private fun saveData(note: NoteModel) {
@@ -59,28 +91,24 @@ class NoteWindowFragment : Fragment() {
         Log.d("ololo", viewModel.getAllNotes().toString())
     }
 
-    private fun setNoteText(note :NoteModel) {
-        windowTitle.setOnFocusChangeListener { _, b -> //Looking when View focus is changed
-            if (!b) {
-                savedWindowTitle = windowTitle.text.toString() // Saving View changes into mVariable
-                note.noteTitle = savedWindowTitle //Setting mVariable to Model
-                Log.d("ololo", "${windowTitle.text} has been changed")
-                Log.e("ololo", "${noteModel.noteTitle} | ${noteModel.noteDescription}")
-            } else {
-                Log.d("ololo", "${windowTitle.text} is focused")
-            }
-        }
-
-        windowDescription.setOnFocusChangeListener { _, b ->
-            if (!b) {
-                savedWindowDescription = windowDescription.text.toString() // Saving View changes into mVariable
-                note.noteDescription = savedWindowDescription //Setting mVariable to Model
-                Log.d("ololo", "${windowDescription.text} has been changed")
-                Log.e("ololo", "${noteModel.noteTitle} | ${noteModel.noteDescription}")
-            } else {
-                Log.d("ololo", "${windowDescription.text} is focused")
-            }
-        }
-
+    override fun onStop() {
+        super.onStop()
+        Log.e("ololo", lifecycle.currentState.toString())
+        Log.d(
+            "ololo", "NoteWindowList was opened | " + noteListFragment
+                .lifecycle.currentState
+                .toString()
+        )
+        saveData(noteModel)
+        Log.i("ololo", viewModel.getAllNotes().toString())
     }
+
+    override fun onBackPressed(view: View): Boolean {
+        view.requestFocus()
+        return false
+    }
+}
+
+interface BackPressedHandler {
+    fun onBackPressed(view: View): Boolean
 }

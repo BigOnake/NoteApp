@@ -19,7 +19,7 @@ class NoteListFragment : Fragment() {
 
     //private val noteModel = NoteModel(null)
 
-    private lateinit var fab:FloatingActionButton
+    private lateinit var fab: FloatingActionButton
     private lateinit var noteWindowFragment: NoteWindowFragment
     private lateinit var viewModel: ViewModel
 
@@ -50,17 +50,17 @@ class NoteListFragment : Fragment() {
         Log.d("ololo", "RecyclerView has been created")
     }
 
-    private fun initView(v:View){
+    private fun initView(v: View) {
         fab = v.findViewById(R.id.fab)
     }
 
-    private fun onClick(){
-        fab.setOnClickListener{
+    private fun onClick() {
+        fab.setOnClickListener {
             openNoteWindowFragment()
         }
     }
 
-    private fun openNoteWindowFragment(){
+    private fun openNoteWindowFragment() {
         Toast.makeText(context, "FAB was clicked", Toast.LENGTH_SHORT).show()
         val activity: AppCompatActivity = context as AppCompatActivity
         noteWindowFragment = NoteWindowFragment()
@@ -69,7 +69,10 @@ class NoteListFragment : Fragment() {
             .addToBackStack(null).commit()
 
         Log.d("ololo", lifecycle.currentState.toString())
-        Log.d("ololo", "NoteWindowFragment was opened | " + noteWindowFragment.lifecycle.currentState.toString())
+        Log.d(
+            "ololo",
+            "NoteWindowFragment was opened | " + noteWindowFragment.lifecycle.currentState.toString()
+        )
     }
 
     override fun onDestroy() {

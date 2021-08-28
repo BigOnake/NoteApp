@@ -3,7 +3,6 @@ package com.example.noteapp.presentation.noteList
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.noteapp.data.NoteDataBase
 import com.example.noteapp.data.NoteRepository
@@ -41,4 +40,12 @@ class ViewModel(application: Application): AndroidViewModel(application) {
             Log.d("ololo", readAll.toString())
         }
     }
+
+    fun deleteAllNotes(){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteAllNotes()
+        }
+    }
+
+
 }
