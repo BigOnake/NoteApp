@@ -28,16 +28,16 @@ class ViewModel(application: Application): AndroidViewModel(application) {
        viewModelScope.launch(Dispatchers.IO) {
            repository.insertNotes(note)
 
-           Log.e("ololo", "addNote: ${repository.getAllNotes().size}", )
+           Log.i("ololo", "NoteList size: ${repository.getAllNotes().size}", )
 
-           Log.e("ololo", readAll.toString())
+           Log.i("ololo", "INSERTED notes ${readAll.toString()}")
        }
     }
 
     fun getAllNotes(){
         viewModelScope.launch(Dispatchers.IO){
             repository.getAllNotes()
-            Log.d("ololo", readAll.toString())
+            Log.w("ololo", "READ notes ${readAll.toString()}")
         }
     }
 

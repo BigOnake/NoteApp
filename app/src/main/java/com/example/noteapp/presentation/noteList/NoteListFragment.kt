@@ -32,11 +32,12 @@ class NoteListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("ololo", "NoteListFragment " + lifecycle.currentState.toString())
+        Log.d("ololo", "NoteListFragment lifecycle status ${lifecycle.currentState}")
 
         viewModel = ViewModelProvider(this).get(ViewModel::class.java)
         initView(view)
         createRecyclerView(view)
+        viewModel.deleteAllNotes()
         onClick()
     }
 
@@ -67,17 +68,15 @@ class NoteListFragment : Fragment() {
         activity.supportFragmentManager.beginTransaction()
             .replace(R.id.main_fragment_container, noteWindowFragment)
             .addToBackStack(null).commit()
-
-        Log.d("ololo", lifecycle.currentState.toString())
         Log.d(
             "ololo",
-            "NoteWindowFragment was opened | " + noteWindowFragment.lifecycle.currentState.toString()
+            "NoteWindowFragment was opened ${noteWindowFragment.lifecycle.currentState}"
         )
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.e("ololo", lifecycle.currentState.toString())
+        Log.e("ololo", "NoteListFr lifecycle onDestroy ${lifecycle.currentState}")
     }
 
 }
